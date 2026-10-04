@@ -1,6 +1,5 @@
 import { CONFIG } from "./config";
 
-const FIRST_PLAY_KEY = "auditoryInterferenceSpotifyFirstPlay";
 const FALLBACK_MS = 1500;
 const SPOTIFY_KINDS = ["track", "playlist", "album", "artist", "episode", "show"];
 
@@ -35,11 +34,6 @@ function replaceWeb(): void {
 }
 
 export function redirectToSpotify(): void {
-  if (localStorage.getItem(FIRST_PLAY_KEY) !== null) {
-    replaceWeb();
-    return;
-  }
-  localStorage.setItem(FIRST_PLAY_KEY, "1");
   if (!isHandheld()) {
     replaceWeb();
     return;
@@ -49,17 +43,54 @@ export function redirectToSpotify(): void {
     replaceWeb();
     return;
   }
-  const timer = window.setTimeout(() => {
-    if (document.visibilityState === "visible") {
-      replaceWeb();
-    }
-  }, FALLBACK_MS);
-  const onVisibility = () => {
+
+  let appOpened = false;
+  let didRedirect = false;
+  let timer = 0;
+
+  const onVisibility = (): void => {
     if (document.visibilityState === "hidden") {
-      window.clearTimeout(timer);
-      document.removeEventListener("visibilitychange", onVisibility);
+      markOpened();
     }
   };
+
+  const onBlur = (): void => {
+    markOpened();
+  };
+
+  const onPageHide = (): void => {
+    markOpened();
+  };
+
+  function cleanup(): void {
+    document.removeEventListener("visibilitychange", onVisibility);
+    window.removeEventListener("blur", onBlur);
+    window.removeEventListener("pagehide", onPageHide);
+  }
+
+  function markOpened(): void {
+    if (appOpened) {
+      return;
+    }
+    appOpened = true;
+    window.clearTimeout(timer);
+    cleanup();
+  }
+
+  timer = window.setTimeout(() => {
+    cleanup();
+    if (appOpened || didRedirect) {
+      return;
+    }
+    if (document.visibilityState === "hidden" || !document.hasFocus()) {
+      return;
+    }
+    didRedirect = true;
+    replaceWeb();
+  }, FALLBACK_MS);
+
   document.addEventListener("visibilitychange", onVisibility);
+  window.addEventListener("blur", onBlur);
+  window.addEventListener("pagehide", onPageHide);
   window.location.href = uri;
 }
