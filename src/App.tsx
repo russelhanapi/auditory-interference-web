@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { CONFIG } from "./config";
 import { grantAccess, pinMatches } from "./access";
+import { redirectToSpotify } from "./spotifyRedirect";
 import { DiscField } from "./DiscField";
 import { PinField } from "./PinField";
 
@@ -52,7 +52,7 @@ export function App() {
     grantAccess();
     const wait = prefersReducedMotion() ? 400 : 1000;
     const id = window.setTimeout(() => {
-      window.location.replace(CONFIG.spotifyUrl);
+      redirectToSpotify();
     }, wait);
     return () => window.clearTimeout(id);
   }, [phase]);
