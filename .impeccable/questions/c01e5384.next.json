@@ -1,0 +1,69 @@
+{
+  "title": "Choose the access composition",
+  "question": "Three structures from the CD packaging, all inside DESIGN.md. Image generation is out of quota, so cards show schematics and the build runs code-led. Lock one, steer, or re-roll.",
+  "options": [
+    {
+      "id": "ring-dot",
+      "label": "The Ring Opens",
+      "kicker": "THE ROLL",
+      "lineage": "Back-cover ring-dot growing into the front-cover ring",
+      "thesis": "The tiny ring-dot mark grows with each digit until it becomes the cover's full ring.",
+      "palette": ["#0b0b0c", "#a6a6a0", "#c2c2bb", "#ffffff"],
+      "materials": ["hairline ring", "tracked grotesk", "dead air"],
+      "viewport": "Two-line tracked title top-left; small ring-dot mid-screen; PIN digits beneath; ring scales per digit, decoding adds concentric grooves, admission collapses ring to white type.",
+      "risk": "One object carrying all state; scale steps must read as progress, not decoration.",
+      "wireframe": {
+        "cols": 9,
+        "rows": 16,
+        "regions": [
+          { "label": "AUDITORY / INTERFERENCE", "x": 1, "y": 1, "w": 5, "h": 2 },
+          { "label": "ring grows per digit", "x": 1, "y": 4, "w": 7, "h": 6, "accent": true },
+          { "label": "prompt", "x": 2, "y": 11, "w": 5, "h": 1 },
+          { "label": "4 _ _ _", "x": 3, "y": 12, "w": 3, "h": 1 }
+        ]
+      }
+    },
+    {
+      "id": "back-cover",
+      "label": "Back Cover Ledger",
+      "lineage": "CD back cover: empty field, corner ring, barcode credit line",
+      "thesis": "The screen is the back cover; the PIN is the barcode, printed bar by bar as digits arrive.",
+      "palette": ["#0b0b0c", "#a6a6a0", "#c2c2bb", "#ffffff"],
+      "materials": ["barcode bars", "corner ring-dot", "credit-line type"],
+      "viewport": "Mostly empty dark field; ring-dot status mark top-right; bottom-left title plus prompt; PIN digits above a barcode strip in the thumb zone.",
+      "risk": "Huge empty field can read unfinished if bar rhythm and type are not exact.",
+      "wireframe": {
+        "cols": 9,
+        "rows": 16,
+        "regions": [
+          { "label": "ring-dot status", "x": 7, "y": 1, "w": 1, "h": 1, "accent": true },
+          { "label": "4 _ _ _", "x": 1, "y": 11, "w": 3, "h": 1 },
+          { "label": "barcode grows per digit", "x": 1, "y": 12, "w": 7, "h": 1, "accent": true },
+          { "label": "title / A COLLECTION OF NOISE", "x": 1, "y": 14, "w": 5, "h": 1 }
+        ]
+      }
+    },
+    {
+      "id": "disc-read",
+      "label": "Disc Read",
+      "lineage": "Disc face: concentric groove rings around a center hole",
+      "thesis": "Grooves fill the viewport; the PIN sits in the center hole and each digit lights one groove band.",
+      "palette": ["#0b0b0c", "#a6a6a0", "#c2c2bb", "#ffffff"],
+      "materials": ["concentric hairlines", "center-hole numerals"],
+      "viewport": "Concentric hairline rings bleeding off screen edges; title on an upper groove; four digits in the hole; decoding sweeps grooves inward.",
+      "risk": "Closest to a literal disc; must stay flat linework, never shiny CD skeuomorph.",
+      "wireframe": {
+        "cols": 9,
+        "rows": 16,
+        "regions": [
+          { "label": "grooves bleed off edges", "x": 0, "y": 3, "w": 9, "h": 10, "accent": true },
+          { "label": "title on groove", "x": 2, "y": 4, "w": 5, "h": 1 },
+          { "label": "4 _ _ _ in hole", "x": 3, "y": 8, "w": 3, "h": 1 }
+        ]
+      }
+    }
+  ],
+  "reroll": true,
+  "steer": true,
+  "buildPath": { "value": "code", "toggle": false }
+}

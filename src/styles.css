@@ -1,0 +1,486 @@
+:root {
+  --dead-air: #0b0b0c;
+  --blackout: #000;
+  --signal-ash: #a6a6a0;
+  --focused-signal: #c2c2bb;
+  --admission-white: #fff;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background: var(--dead-air);
+}
+
+body {
+  min-width: 320px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+::selection {
+  background: var(--signal-ash);
+  color: var(--dead-air);
+}
+
+.stage {
+  --disc: max(min(165vw, 96svh), 460px);
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: var(--dead-air);
+  color: var(--signal-ash);
+  font-family: "Hanken Grotesk", sans-serif;
+  transition: background-color 300ms linear;
+}
+
+.stage[data-phase="black"],
+.stage[data-phase="admitted"] {
+  background: var(--blackout);
+}
+
+/* Disc */
+
+.disc {
+  position: absolute;
+  top: calc(50% - var(--disc) / 2);
+  left: calc(50% - var(--disc) / 2);
+  width: var(--disc);
+  height: var(--disc);
+}
+
+.stage[data-phase="admitted"] .disc {
+  display: none;
+}
+
+.disc-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotate(0deg);
+  transition: transform 700ms var(--ease-out);
+}
+
+.groove {
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.15;
+  transition: opacity 480ms var(--ease-out);
+}
+
+.groove-hole {
+  stroke-width: 1.6;
+  opacity: 0.38;
+}
+
+.disc:focus-within .groove-hole {
+  opacity: 1;
+}
+
+/* Each entered digit lights one band, rim inward, and turns the sheen. */
+
+.stage[data-intensity="1"] .disc-svg {
+  transform: rotate(30deg);
+}
+
+.stage[data-intensity="2"] .disc-svg {
+  transform: rotate(60deg);
+}
+
+.stage[data-intensity="3"] .disc-svg {
+  transform: rotate(90deg);
+}
+
+.stage[data-intensity="1"] .groove[data-band="1"],
+.stage[data-intensity="2"] .groove[data-band="1"],
+.stage[data-intensity="2"] .groove[data-band="2"],
+.stage[data-intensity="3"] .groove[data-band="1"],
+.stage[data-intensity="3"] .groove[data-band="2"],
+.stage[data-intensity="3"] .groove[data-band="3"] {
+  opacity: 0.96;
+}
+
+/* Bands knocked out of the grooves */
+
+.disc-band {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: calc(100vw - 48px);
+  padding: 6px 6px 6px 10px;
+  transform: translate(-50%, -50%);
+}
+
+/* Feathered knockout: solid behind the text, soft falloff into the grooves. */
+.disc-band::before {
+  content: "";
+  position: absolute;
+  inset: -8px -24px;
+  z-index: -1;
+  background: var(--dead-air);
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      #000 28px,
+      #000 calc(100% - 28px),
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 10px,
+      #000 calc(100% - 10px),
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      #000 28px,
+      #000 calc(100% - 28px),
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 10px,
+      #000 calc(100% - 10px),
+      transparent 100%
+    );
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.title {
+  top: 20%;
+  margin: 0;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.34em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--signal-ash);
+}
+
+.disc-band-low {
+  top: 80%;
+}
+
+.prompt {
+  display: block;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.32em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--signal-ash);
+  cursor: pointer;
+  transition: color 180ms linear;
+}
+
+.prompt:hover {
+  color: var(--focused-signal);
+}
+
+.prompt span {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+
+.denied-copy {
+  margin: 10px 0 0;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.32em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--focused-signal);
+}
+
+.disc.is-denied {
+  animation: deny 280ms var(--ease-out) 1;
+}
+
+.disc.is-denied .groove-hole {
+  animation: deny-flare 420ms var(--ease-out) 1;
+}
+
+/* Hole */
+
+.disc-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.pin {
+  position: relative;
+  width: 168px;
+  height: 44px;
+}
+
+.pin-input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
+  height: 100%;
+  pointer-events: none;
+}
+
+.slot {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--signal-ash);
+}
+
+.pin:focus-within .slot {
+  color: var(--focused-signal);
+}
+
+.decode-copy {
+  margin: 0;
+  padding-left: 0.42em;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--focused-signal);
+}
+
+/* Reading: the disc spins up and a read sweep travels rim to hole. */
+
+.stage[data-phase="decoding"] .disc-svg {
+  transition: none;
+  animation: spin-up 800ms var(--ease-in) forwards;
+}
+
+.stage[data-phase="peak"] .disc-svg {
+  transition: none;
+  animation: spin 420ms linear infinite;
+}
+
+.stage[data-phase="decoding"] .groove:not(.groove-hole),
+.stage[data-phase="peak"] .groove:not(.groove-hole) {
+  animation: read 900ms var(--ease-out) infinite;
+  animation-delay: calc((9 - var(--i)) * 70ms);
+}
+
+.stage[data-phase="peak"] .groove:not(.groove-hole) {
+  animation-duration: 520ms;
+  animation-delay: calc((9 - var(--i)) * 40ms);
+}
+
+.stage[data-phase="decoding"] .groove-hole,
+.stage[data-phase="peak"] .groove-hole {
+  opacity: 1;
+}
+
+.stage[data-phase="peak"] .disc {
+  animation: skip 1.5s steps(1, end) infinite;
+}
+
+.stage[data-phase="black"] .disc {
+  animation: collapse 600ms var(--ease-in) forwards;
+}
+
+.stage[data-phase="black"] .groove {
+  opacity: 0.92;
+}
+
+/* Admission */
+
+.admitted-copy {
+  position: relative;
+  margin: 0;
+  padding-left: 0.42em;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.42em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--admission-white);
+  animation: admit 700ms var(--ease-out) 1;
+}
+
+@keyframes deny {
+  0% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(4px);
+  }
+  70% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes deny-flare {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.38;
+  }
+}
+
+@keyframes spin-up {
+  from {
+    transform: rotate(120deg);
+  }
+  to {
+    transform: rotate(480deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(120deg);
+  }
+  to {
+    transform: rotate(480deg);
+  }
+}
+
+@keyframes read {
+  0% {
+    opacity: 0.95;
+  }
+  55%,
+  100% {
+    opacity: 0.16;
+  }
+}
+
+@keyframes skip {
+  0%,
+  34%,
+  66%,
+  88%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: translateX(3px);
+  }
+  62% {
+    transform: scale(1.012);
+  }
+  85% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes collapse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes admit {
+  from {
+    opacity: 0;
+    letter-spacing: 0.6em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.42em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .stage *,
+  .stage *::before,
+  .stage *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .stage[data-phase="decoding"] .groove,
+  .stage[data-phase="peak"] .groove {
+    opacity: 0.7;
+  }
+
+  .stage[data-phase="black"] .disc {
+    opacity: 0;
+  }
+
+  .disc.is-denied .groove-hole {
+    opacity: 1;
+  }
+}

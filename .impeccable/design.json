@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T03:40:00Z",
+  "title": "Design System: Auditory Interference",
+  "extensions": {
+    "colorMeta": {
+      "dead-air": {
+        "role": "neutral",
+        "displayName": "Dead Air",
+        "canonical": "#0b0b0c",
+        "tonalRamp": [
+          "oklch(15% 0.004 285)",
+          "oklch(25% 0.004 285)",
+          "oklch(35% 0.004 285)",
+          "oklch(48% 0.004 285)",
+          "oklch(60% 0.004 285)",
+          "oklch(72% 0.004 285)",
+          "oklch(84% 0.004 285)",
+          "oklch(95% 0.004 285)"
+        ]
+      },
+      "blackout": {
+        "role": "neutral",
+        "displayName": "Blackout",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "signal-ash": {
+        "role": "primary",
+        "displayName": "Signal Ash",
+        "canonical": "#a6a6a0",
+        "tonalRamp": [
+          "oklch(15% 0.008 105)",
+          "oklch(25% 0.008 105)",
+          "oklch(35% 0.008 105)",
+          "oklch(48% 0.008 105)",
+          "oklch(60% 0.008 105)",
+          "oklch(72% 0.008 105)",
+          "oklch(84% 0.008 105)",
+          "oklch(95% 0.008 105)"
+        ]
+      },
+      "focused-signal": {
+        "role": "primary",
+        "displayName": "Focused Signal",
+        "canonical": "#c2c2bb",
+        "tonalRamp": [
+          "oklch(15% 0.009 105)",
+          "oklch(25% 0.009 105)",
+          "oklch(35% 0.009 105)",
+          "oklch(48% 0.009 105)",
+          "oklch(60% 0.009 105)",
+          "oklch(72% 0.009 105)",
+          "oklch(84% 0.009 105)",
+          "oklch(95% 0.009 105)"
+        ]
+      },
+      "admission-white": {
+        "role": "neutral",
+        "displayName": "Admission White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(35% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "title": {
+        "displayName": "Title",
+        "purpose": "Product name on the upper disc band."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Access prompt and denial feedback."
+      },
+      "numeric": {
+        "displayName": "Numeric",
+        "purpose": "Four-slot access sequence with tabular figures."
+      },
+      "status": {
+        "displayName": "Status",
+        "purpose": "Decrypting and successful admission messages."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Groove opacity, denial, collapse, and admission easing."
+      },
+      {
+        "name": "ease-in",
+        "value": "cubic-bezier(0.7, 0, 0.84, 0)",
+        "purpose": "Spin-up and collapse acceleration."
+      },
+      {
+        "name": "disc-rotate-intensity",
+        "value": "700ms ease-out",
+        "purpose": "Disc rotation per entered digit during entry."
+      },
+      {
+        "name": "deny-shift",
+        "value": "280ms ease-out",
+        "purpose": "Horizontal rejection shake on the disc cluster."
+      },
+      {
+        "name": "deny-flare",
+        "value": "420ms ease-out",
+        "purpose": "Hole ring opacity pulse on denial."
+      },
+      {
+        "name": "spin-up",
+        "value": "800ms ease-in",
+        "purpose": "Decrypting phase initial disc acceleration."
+      },
+      {
+        "name": "spin-peak",
+        "value": "420ms linear infinite",
+        "purpose": "Continuous rotation during peak decrypt."
+      },
+      {
+        "name": "read-sweep",
+        "value": "900ms ease-out infinite (520ms in peak)",
+        "purpose": "Inward staggered groove opacity pulse while reading."
+      },
+      {
+        "name": "peak-skip",
+        "value": "1.5s steps(1, end) infinite",
+        "purpose": "Subtle disc jitter during peak phase."
+      },
+      {
+        "name": "collapse",
+        "value": "600ms ease-in",
+        "purpose": "Disc scale and fade into blackout."
+      },
+      {
+        "name": "admit",
+        "value": "700ms ease-out",
+        "purpose": "Admission line opacity and tracking settle."
+      },
+      {
+        "name": "stage-background",
+        "value": "300ms linear",
+        "purpose": "Dead Air to Blackout background transition."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Disc Field",
+      "kind": "custom",
+      "description": "Ten concentric Signal Ash grooves with sheen; lights bands and animates during access phases.",
+      "html": "<div class=\"ds-disc-wrap\" aria-hidden=\"true\"><svg class=\"ds-disc-svg\" viewBox=\"-500 -500 1000 1000\"><defs><linearGradient id=\"ds-disc-sheen\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0\" stop-color=\"#a6a6a0\" stop-opacity=\"1\" /><stop offset=\"0.55\" stop-color=\"#a6a6a0\" stop-opacity=\"0.6\" /><stop offset=\"1\" stop-color=\"#a6a6a0\" stop-opacity=\"0.14\" /></linearGradient></defs><circle class=\"ds-groove ds-groove-hole\" cx=\"0\" cy=\"0\" r=\"200\" /><circle class=\"ds-groove\" cx=\"0\" cy=\"0\" r=\"233\" /><circle class=\"ds-groove\" cx=\"0\" cy=\"0\" r=\"266\" /><circle class=\"ds-groove ds-groove-lit\" cx=\"0\" cy=\"0\" r=\"299\" /></svg></div>",
+      "css": ".ds-disc-wrap { position: relative; width: 320px; height: 320px; background: #0b0b0c; } .ds-disc-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(30deg); transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-groove { fill: none; stroke: url(#ds-disc-sheen); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0.15; transition: opacity 480ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-groove-hole { stroke-width: 1.6; opacity: 0.38; } .ds-groove-lit { opacity: 0.96; } .ds-disc-wrap:hover .ds-disc-svg { transform: rotate(45deg); } .ds-disc-wrap:focus-visible { outline: 1px solid #c2c2bb; outline-offset: 8px; }"
+    },
+    {
+      "name": "Access Label",
+      "kind": "custom",
+      "refersTo": "access-label",
+      "description": "Widely tracked prompt on the lower knocked-out band.",
+      "html": "<label class=\"ds-access-label\" for=\"ds-access-sequence\">ENTER ACCESS SEQUENCE</label>",
+      "css": ".ds-access-label { display: block; color: #a6a6a0; font-family: \"Hanken Grotesk\", sans-serif; font-size: 11px; font-weight: 400; line-height: 1.4; letter-spacing: 0.32em; text-align: center; text-transform: uppercase; cursor: pointer; transition: color 180ms linear; } .ds-access-label:hover { color: #c2c2bb; } .ds-access-label:focus-visible { outline: 1px solid #c2c2bb; outline-offset: 6px; }"
+    },
+    {
+      "name": "PIN Field",
+      "kind": "input",
+      "refersTo": "pin-field",
+      "description": "Borderless four-slot numeric access instrument in the centre hole.",
+      "html": "<div class=\"ds-pin\"><input id=\"ds-access-sequence\" class=\"ds-pin-input\" inputmode=\"numeric\" maxlength=\"4\" value=\"12\" aria-label=\"Access sequence\"><div class=\"ds-pin-slots\" aria-hidden=\"true\"><span>1</span><span>2</span><span>_</span><span>_</span></div></div>",
+      "css": ".ds-pin { position: relative; width: 168px; height: 44px; color: #a6a6a0; font-family: \"Hanken Grotesk\", sans-serif; } .ds-pin-input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; padding: 0; border: 0; outline: none; background: transparent; color: transparent; caret-color: transparent; font-size: 16px; cursor: pointer; } .ds-pin-slots { display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; justify-items: center; height: 100%; font-size: 18px; font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1; pointer-events: none; transition: color 180ms linear; } .ds-pin:focus-within .ds-pin-slots { color: #c2c2bb; } .ds-pin-input:focus-visible { outline: 1px solid rgba(194, 194, 187, 0.22); outline-offset: 4px; }"
+    },
+    {
+      "name": "Admission Status",
+      "kind": "custom",
+      "refersTo": "admission-status",
+      "description": "Terminal success message reserved for granted access.",
+      "html": "<p class=\"ds-admission\" role=\"status\">YOU'RE IN.</p>",
+      "css": ".ds-admission { margin: 0; padding-left: 0.42em; background: #000000; color: #ffffff; font-family: \"Hanken Grotesk\", sans-serif; font-size: 13px; font-weight: 500; line-height: 1.5; letter-spacing: 0.42em; text-align: center; text-transform: uppercase; animation: ds-admit 700ms cubic-bezier(0.16, 1, 0.3, 1) 1; } .ds-admission:focus-visible { outline: 1px solid #ffffff; outline-offset: -5px; } @keyframes ds-admit { from { opacity: 0; letter-spacing: 0.6em; } to { opacity: 1; letter-spacing: 0.42em; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Black-Box Transmission",
+    "overview": "Auditory Interference behaves like a sealed diagnostic instrument receiving an unknown signal. Its world is clinical, technical, and restrained: almost-black space, low-contrast telemetry, exact typography, and interference that escalates only in response to input.\n\nThe access surface is the disc face itself—concentric hairline grooves, a centre hole for the sequence, and typography knocked out of the field. The interface avoids decorative software conventions: no bright accents, rounded cards, or glossy UI chrome. Identity comes from the disc read ritual, sparse uppercase type, and a controlled transition from muted Signal Ash through spin and collapse to absolute Blackout and Admission White.",
+    "keyCharacteristics": [
+      "Near-monochrome palette with deliberately narrow contrast.",
+      "Small uppercase Hanken Grotesk with extreme tracking.",
+      "Flat, borderless controls shaped by spacing rather than containers.",
+      "Ten concentric groove rings with a left-to-right Signal Ash sheen; digit entry lights bands from the rim inward.",
+      "Motion tied to access phases: intensity rotation, decrypt spin-up and read sweep, peak jitter, collapse, then admission."
+    ],
+    "rules": [
+      {
+        "name": "The Narrow Spectrum Rule",
+        "body": "Keep the experience achromatic; state is communicated through contrast, opacity, movement, and timing rather than hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The White Means Admitted Rule",
+        "body": "Full white belongs to the final success message. Earlier states remain in Signal Ash or Focused Signal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Disc Sheen Rule",
+        "body": "The only directional luminance gradient is the groove stroke sheen (Signal Ash, full to ~14% opacity left to right). Do not extend that treatment to buttons, cards, or the stage background.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tracked Transmission Rule",
+        "body": "Interface language is uppercase and widely tracked; never replace it with conventional sentence-case product copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The Weight Ceiling Rule",
+        "body": "Use only weights 400 and 500. Density comes from spacing and contrast, not bold type.",
+        "section": "typography"
+      },
+      {
+        "name": "The Disc Owns the Frame Rule",
+        "body": "The disc face is the primary layout; typography and PIN align to the hole and knocked-out bands, not a separate centered card stack.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Signal Rule",
+        "body": "Never use shadow to create hierarchy. Change opacity, luminance, rotation, or motion intensity instead.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Vessel Rule",
+        "body": "Do not wrap content in cards, pills, panels, or outlined input cells.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do preserve the near-monochrome Dead Air, Signal Ash, and Admission White hierarchy.",
+      "Do tie disc motion and groove lighting to digit count and explicit phases (entry, decoding, peak, black, admitted).",
+      "Do use the hole ring and knocked-out bands for focus and legibility on the groove field.",
+      "Do provide a reduced-motion path that disables animations and uses shorter phase timings while preserving sequence and feedback.",
+      "Do keep decrypting and admission copy in Focused Signal until Admission White on success."
+    ],
+    "donts": [
+      "Don't introduce bright hue accents, glossy UI materials, or ornamental glow outside the disc groove language.",
+      "Don't add rounded cards, pills, boxed PIN slots, or conventional form chrome.",
+      "Don't use full white before successful admission.",
+      "Don't add shadows or fake physical elevation.",
+      "Don't resurrect full-viewport waveform, scan-line, or bar-decryption decoration—the disc grooves carry atmospheric instrumentation.",
+      "Don't turn the signal language into a literal green-screen retro terminal."
+    ]
+  }
+}
